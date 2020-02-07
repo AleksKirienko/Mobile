@@ -9,7 +9,7 @@ class ActivityThree : AppCompatActivity() {
 
     val catNames = arrayOf(
         "Рыжик", "Барсик", "Муся", "Васька",
-        "Пушок", "Кузьмич", "Шерхан"
+        "Пушок", "Кузьмич", "Шархан"
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {

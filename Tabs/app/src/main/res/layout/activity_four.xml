@@ -9,8 +9,8 @@
 
     <TableLayout
         android:id="@+id/tableLayout1"
-        android:layout_width="415dp"
-        android:layout_height="139dp"
+        android:layout_width="374dp"
+        android:layout_height="142dp"
         android:shrinkColumns="*"
         android:stretchColumns="*"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -80,6 +80,7 @@
 
             <TextView
                 android:id="@+id/textView01"
+                android:layout_width="63dp"
                 android:text="Height"
                 android:textStyle="bold" />
 
