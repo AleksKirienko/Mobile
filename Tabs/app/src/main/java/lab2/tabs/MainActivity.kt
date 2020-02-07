@@ -26,7 +26,6 @@ class MainActivity : AppCompatActivity() {
         lastButton = findViewById(R.id.button3)
 
         openButton!!.setOnClickListener {
-            //startActivityForResult(Intent(this, activityTwo::class.java), ACTIVITY_TWO_REQUEST_CODE)
             val openAct = Intent(this, activityTwo::class.java)
             startActivity(openAct)
         }
@@ -34,6 +33,11 @@ class MainActivity : AppCompatActivity() {
         listButton!!.setOnClickListener {
             val list = Intent(this, ActivityThree::class.java)
             startActivity(list)
+        }
+
+        lastButton!!.setOnClickListener {
+            val last = Intent(this, ActivityFour::class.java)
+            startActivity(last)
         }
     }
 }
