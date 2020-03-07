@@ -9,41 +9,48 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 public class MainActivity extends AppCompatActivity {
+
+    private BugView view;
+    private Handler handler;
+    private final static int interval = 50;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.activity_main);
-        setContentView(new Panel(this)); // заменяем разметку на наш элемент
+
+        view = new BugView(this);
+        setContentView(view);
+
+        handler = new Handler();
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        view.invalidate();
+                    }
+                });
+            }
+        }, 0, interval);
     }
 
-    class Panel extends View {
-        public Panel(Context context) {
-            super(context);
-            // установим обработчик нажатия
-            this.setOnTouchListener(new OnTouchListener() {
-                @Override
-                public boolean onTouch(View v, MotionEvent event) {
-                    // Здесь выводится тип нажатия и координаты X Y
-                    Log.v("Sasha", "Pos:" + event.getAction()
-                            + event.getX() + " "
-                            + event.getY());
-                    return false;
-                }
-            });
-        }
-
-        @Override
-        public void onDraw(Canvas c) {
-            Paint p1 = new Paint();// Создаем кисть для рисования
-            p1.setColor(Color.rgb(100, 0, 255)); // Меняем цвет
-            p1.setTextSize(50); // Задаем размер текста
-            c.drawText("Жмяк:", 100, 100, p1); // Выводим текст
-        }
-    }
+    /*@Override
+    public void onDraw(Canvas c) {
+        Paint p1 = new Paint();// Создаем кисть для рисования
+        p1.setColor(Color.rgb(100, 0, 255)); // Меняем цвет
+        p1.setTextSize(50); // Задаем размер текста
+        c.drawText("Жмяк:", 100, 100, p1); // Выводим текст
+    }*/
 }
