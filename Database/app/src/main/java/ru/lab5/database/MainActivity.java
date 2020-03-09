@@ -13,6 +13,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import java.util.Random;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     final String LOG_TAG = "myLogs";
@@ -22,9 +24,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     DBHelper dbHelper;
 
-    /**
-     * Called when the activity is first created.
-     */
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +56,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // получаем данные из полей ввода
         String name = etName.getText().toString();
+        //Int weight = new Random().nextInt(150) + 50;
         String weight = etWeight.getText().toString();
         String height = etHeight.getText().toString();
         String age = etAge.getText().toString();
@@ -91,7 +93,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     int weightColIndex = c.getColumnIndex("weight");
                     int heightColIndex = c.getColumnIndex("height");
                     int ageColIndex = c.getColumnIndex("age");
-                    //int emailColIndex = c.getColumnIndex("email");
 
                     do {
                         // получаем значения по номерам столбцов и пишем все в лог
