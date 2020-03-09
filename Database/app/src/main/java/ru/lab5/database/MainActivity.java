@@ -18,7 +18,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     final String LOG_TAG = "myLogs";
 
     Button btnAdd, btnRead, btnClear;
-    EditText etName, etEmail;
+    EditText etName, etWeight, etHeight, etAge;
 
     DBHelper dbHelper;
 
@@ -40,7 +40,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnClear.setOnClickListener(this);
 
         etName = (EditText) findViewById(R.id.etName);
-        etEmail = (EditText) findViewById(R.id.etEmail);
+        etWeight = (EditText) findViewById(R.id.etWeight);
+        etHeight = (EditText) findViewById(R.id.etHeight);
+        etAge = (EditText) findViewById(R.id.etAge);
 
         // создаем объект для создания и управления версиями БД
         dbHelper = new DBHelper(this);
@@ -53,7 +55,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // получаем данные из полей ввода
         String name = etName.getText().toString();
-        String email = etEmail.getText().toString();
+        String weight = etWeight.getText().toString();
+        String height = etHeight.getText().toString();
+        String age = etAge.getText().toString();
 
         // подключаемся к БД
         SQLiteDatabase db = dbHelper.getWritableDatabase();
@@ -64,7 +68,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 // подготовим данные для вставки в виде пар: наименование столбца - значение
 
                 cv.put("name", name);
-                cv.put("email", email);
+                cv.put("weight", weight);
+                cv.put("height", height);
+                cv.put("age", age);
+
                 // вставляем запись и получаем ее ID
                 long rowID = db.insert("mytable", null, cv);
                 Log.d(LOG_TAG, "row inserted, ID = " + rowID);
@@ -81,14 +88,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     // определяем номера столбцов по имени в выборке
                     int idColIndex = c.getColumnIndex("id");
                     int nameColIndex = c.getColumnIndex("name");
-                    int emailColIndex = c.getColumnIndex("email");
+                    int weightColIndex = c.getColumnIndex("weight");
+                    int heightColIndex = c.getColumnIndex("height");
+                    int ageColIndex = c.getColumnIndex("age");
+                    //int emailColIndex = c.getColumnIndex("email");
 
                     do {
                         // получаем значения по номерам столбцов и пишем все в лог
                         Log.d(LOG_TAG,
                                 "ID = " + c.getInt(idColIndex) +
                                         ", name = " + c.getString(nameColIndex) +
-                                        ", email = " + c.getString(emailColIndex));
+                                        ", weight = " + c.getString(weightColIndex) +
+                                        ", height = " + c.getString(heightColIndex) +
+                                        ", age = " + c.getString(ageColIndex));
                         // переход на следующую строку
                         // а если следующей нет (текущая - последняя), то false - выходим из цикла
                     } while (c.moveToNext());
@@ -121,7 +133,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             db.execSQL("create table mytable ("
                     + "id integer primary key autoincrement,"
                     + "name text,"
-                    + "email text" + ");");
+                    + "weight text,"
+                    + "height text,"
+                    + "age text" + ");");
         }
 
         @Override
