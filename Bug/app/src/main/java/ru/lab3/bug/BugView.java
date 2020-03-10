@@ -79,8 +79,8 @@ public class BugView extends View {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            if (Math.abs(bug.x - event.getX() + 30) < 40 &&
-                    Math.abs(bug.y - event.getY() + 30) < 60) {
+            if (Math.abs(bug.x - event.getX() + 30) < 100 &&
+                    Math.abs(bug.y - event.getY() + 30) < 120) {
                 matrix.setRotate(0, bug.texture.getWidth() / 2, bug.texture.getHeight() / 2);
                 matrix.reset();
                 bug.p = 0;
