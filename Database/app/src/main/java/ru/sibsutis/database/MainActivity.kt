@@ -122,15 +122,12 @@ class MainActivity : AppCompatActivity() {
                     tl.addView(tr2)
                 }
             }
-
         }
 
         btn_sort.setOnClickListener {
-            db.updateData()
-            btn_read.performClick()
-        }
+//            db.updateData()
+//            btn_read.performClick()
 
-        /*btn_sort.setOnClickListener {
             readCount = 0
             sortCount++
             if (sortCount > 1) {
@@ -221,7 +218,7 @@ class MainActivity : AppCompatActivity() {
                     tl.addView(tr2)
                 }
             }
-        }*/
+        }
 
         btn_del.setOnClickListener {
             db.deleteDB()

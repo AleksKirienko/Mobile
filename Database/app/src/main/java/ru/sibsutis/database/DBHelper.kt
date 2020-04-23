@@ -35,7 +35,7 @@ class DBHelper(var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, 
         cv.put(COL_AGE, user.age)
         cv.put(COL_WEIGHT, user.weight)
         cv.put(COL_HEIGHT, user.height)
-        var res = db.insert(TABLENAME, null, cv)
+        db.insert(TABLENAME, null, cv)
 
 //        if (res == (-1).toLong())
 //            Toast.makeText(context, "Failed", Toast.LENGTH_SHORT).show()
@@ -68,8 +68,6 @@ class DBHelper(var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, 
 
     fun updateData() {
         val db = this.writableDatabase
-        //val query = "Select * from " + TABLENAME
-        //val res = db.rawQuery(query, null)
         val res = db.rawQuery("SELECT * FROM $TABLENAME", null)
         if (res.moveToFirst()) {
             do {
@@ -87,28 +85,11 @@ class DBHelper(var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, 
                 )
             } while (res.moveToNext())
         }
-
-        /*val students = ArrayList<User>()
-        val c = db.rawQuery("SELECT * FROM $TABLENAME ORDER BY $COL_AGE", null)
-        var user: User
-        if (c.moveToFirst()) {
-            do {
-                user = User()
-                user.id = c.getInt(c.getColumnIndex(COL_ID))
-                user.name = c.getString(c.getColumnIndex(COL_NAME))
-                user.age = c.getInt(c.getColumnIndex(COL_AGE))
-                user.weight = c.getInt(c.getColumnIndex(COL_WEIGHT))
-                user.height = c.getInt(c.getColumnIndex(COL_HEIGHT))
-                students.add(user)
-
-            } while (c.moveToNext())
-        }*/
-
         res.close()
         db.close()
     }
 
-    /*fun sort(): ArrayList<User> {
+    fun sort(): ArrayList<User> {
         val students = ArrayList<User>()
         val db = this.readableDatabase
         val c = db.rawQuery("SELECT * FROM $TABLENAME ORDER BY $COL_AGE", null)
@@ -128,7 +109,7 @@ class DBHelper(var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, 
         c.close()
         db.close()
         return students
-    }*/
+    }
 
     fun deleteDB() {
         val db = this.writableDatabase
