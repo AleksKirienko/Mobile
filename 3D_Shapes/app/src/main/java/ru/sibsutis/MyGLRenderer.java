@@ -12,7 +12,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
     private Square msquare;
 
     public void onSurfaceCreated(GL10 unused, EGLConfig config) {
-        GLES20.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+        GLES20.glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
         mTriangle = new Triangle();
         msquare = new Square();
     }
