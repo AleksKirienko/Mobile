@@ -100,8 +100,7 @@ public class Cube implements GLSurfaceView.Renderer {
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
         gl.glDisable(GL11.GL_DITHER);
 
-        gl.glHint(GL11.GL_PERSPECTIVE_CORRECTION_HINT,
-                GL11.GL_FASTEST);
+        gl.glHint(GL11.GL_PERSPECTIVE_CORRECTION_HINT, GL11.GL_FASTEST);
 
         if (mTranslucentBackground) {
             gl.glClearColor(1, 0, 0, 0);
