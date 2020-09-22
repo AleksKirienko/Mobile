@@ -1,4 +1,4 @@
-package ru.sibsutis.opengl_es;
+package ru.sibsutis.opengl_es.entity;
 
 import android.opengl.GLSurfaceView;
 
