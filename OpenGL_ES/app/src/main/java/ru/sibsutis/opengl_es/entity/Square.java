@@ -61,7 +61,7 @@ public class Square implements GLSurfaceView.Renderer {
     }
 
     public void draw(GL10 gl) {
-        gl.glFrontFace(GL11.GL_CW);
+        gl.glFrontFace(GL11.GL_CW);  // вершины упорядочивают свои грани
         gl.glVertexPointer(2, GL11.GL_FLOAT, 0, mFVertexBuffer);
         gl.glColorPointer(4, GL11.GL_UNSIGNED_BYTE, 0, mColorBuffer);
         gl.glDrawElements(GL11.GL_TRIANGLES, 6, GL11.GL_UNSIGNED_BYTE, mIndexBuffer);
@@ -76,29 +76,29 @@ public class Square implements GLSurfaceView.Renderer {
             gl.glClearColor(0, 0, 0, 0);
         } else {
             gl.glClearColor(1, 1, 1, 1);
-            gl.glEnable(GL10.GL_CULL_FACE);
-            gl.glShadeModel(GL10.GL_SMOOTH);
-            gl.glEnable(GL10.GL_DEPTH_TEST);
+            gl.glEnable(GL10.GL_CULL_FACE);  // отбрасываем треугольники, которые направлены от нас
+            gl.glShadeModel(GL10.GL_SMOOTH); // плавное затенение, чтобы цвета смешивались по поверхности
+            gl.glEnable(GL10.GL_DEPTH_TEST);  // проверка глубины
         }
     }
 
     @Override
-    public void onSurfaceChanged(GL10 gl, int width, int height) {
-        gl.glViewport(0, 0, width, height);
+    public void onSurfaceChanged(GL10 gl, int width, int height) { // вызывается когда экран меняет размер или создается при запуске
+        gl.glViewport(0, 0, width, height);  // указывает размеры окна
         float ratio = (float) width / height;
-        gl.glMatrixMode(GL10.GL_PROJECTION);
-        gl.glLoadIdentity();
+        gl.glMatrixMode(GL10.GL_PROJECTION);  // устанавливаем матричный режим
+        gl.glLoadIdentity();  // сбрасывает матрицу к ее начальным значениям, чтобы стереть все предыдущие настройки.
         gl.glFrustumf(-ratio, ratio, -1, 1, 1, 10);
     }
 
     @Override
     public void onDrawFrame(GL10 gl) {
-        gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
+        gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT); // очистка экрана
         gl.glMatrixMode(GL10.GL_MODELVIEW);
         gl.glLoadIdentity();
-        gl.glTranslatef(0.0f, (float) Math.sin(mTransY), -3.0f);
+        gl.glTranslatef(0.0f, (float) Math.sin(mTransY), -3.0f); // плавное движение вверх и вниз
 
-        gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
+        gl.glEnableClientState(GL10.GL_VERTEX_ARRAY); // ожидание данных вершин и цветов
         gl.glEnableClientState(GL10.GL_COLOR_ARRAY);
 
         draw(gl);
