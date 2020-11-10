@@ -3,7 +3,6 @@ package ru.sibsutis.planets;
 import java.nio.*;
 
 import javax.microedition.khronos.opengles.GL10;
-import javax.microedition.khronos.opengles.GL11;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -21,7 +20,6 @@ public class Planet {
     float m_Radius;
     int m_Stacks, m_Slices;
     public float[] m_Pos = {0.0f, 0.0f, 0.0f};
-
 
     public Planet(int stacks, int slices, float radius, float squash, GL10 gl, Context context, boolean imageId, int resourceId) {
         this.m_Stacks = stacks;
@@ -206,12 +204,10 @@ public class Planet {
 
 
         int[] pointSize = new int[2];
-        int error;
-        GL11 gl11 = (GL11) gl;
         gl.glGetIntegerv(GL10.GL_SMOOTH_LINE_WIDTH_RANGE, makeIntBuffer(pointSize));
-        error = gl.glGetError();
+        gl.glGetError();
         gl.glGetIntegerv(GL10.GL_ALIASED_LINE_WIDTH_RANGE, makeIntBuffer(pointSize));
-        error = gl.glGetError();
+        gl.glGetError();
 
 
         gl.glDisable(GL10.GL_BLEND);

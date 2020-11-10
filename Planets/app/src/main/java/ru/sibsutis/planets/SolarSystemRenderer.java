@@ -17,6 +17,7 @@ class SolarSystemRenderer implements GLSurfaceView.Renderer {
 
     private Planet m_Earth;
     private Planet m_Sun;
+    private Planet m_Moon;
     private float[] m_Eyeposition = {0.0f, 0.0f, 0.0f};
     private boolean mTranslucentBackground;
     public final static int SS_SUNLIGHT = GL10.GL_LIGHT0;
@@ -33,12 +34,17 @@ class SolarSystemRenderer implements GLSurfaceView.Renderer {
     }
 
     private void initGeometry(GL10 gl) {
-        int resid;
+        int resid, residM;
         m_Eyeposition[X_VALUE] = 0.0f;
         m_Eyeposition[Y_VALUE] = 0.0f;
         m_Eyeposition[Z_VALUE] = 10.0f;
 
         resid = ru.sibsutis.planets.R.drawable.arth_light;
+        residM = ru.sibsutis.planets.R.drawable.moon;
+
+        m_Moon = new Planet(50, 50, .15f, 1.0f, gl, myContext, true, residM);
+        m_Moon.setPosition(0.0f, 0.0f, -2.5f);
+
         m_Earth = new Planet(50, 50, .3f, 1.0f, gl, myContext, true, resid);
         m_Earth.setPosition(0.0f, 0.0f, -2.0f);
 
@@ -56,7 +62,7 @@ class SolarSystemRenderer implements GLSurfaceView.Renderer {
 
         float[] cyan = {0.0f, 1.0f, 1.0f, 1.0f};
         float[] yellow = {1.0f, 1.0f, 0.0f, 1.0f};
-        float[] magenta = {1.0f, 0.0f, 1.0f, 1.0f};
+//        float[] magenta = {1.0f, 0.0f, 1.0f, 1.0f};
         float[] dimmagenta = {.75f, 0.0f, .25f, 1.0f};
 
         float[] dimcyan = {0.0f, .5f, .5f, 1.0f};
@@ -98,7 +104,6 @@ class SolarSystemRenderer implements GLSurfaceView.Renderer {
 
     }
 
-
     protected static FloatBuffer makeFloatBuffer(float[] arr) {
         ByteBuffer bb = ByteBuffer.allocateDirect(arr.length * 4);
         bb.order(ByteOrder.nativeOrder());
@@ -129,7 +134,6 @@ class SolarSystemRenderer implements GLSurfaceView.Renderer {
         float orbitalIncrement = 1.0f;
         float[] sunPos = {0.0f, 0.0f, 0.0f, 1.0f};
 
-
         gl.glEnable(GL10.GL_DEPTH_TEST);
         gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
         gl.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
@@ -138,8 +142,7 @@ class SolarSystemRenderer implements GLSurfaceView.Renderer {
         gl.glLoadIdentity();
 
         gl.glPushMatrix();
-        gl.glTranslatef(-m_Eyeposition[X_VALUE], -m_Eyeposition[Y_VALUE],
-                -m_Eyeposition[Z_VALUE]);
+        gl.glTranslatef(-m_Eyeposition[X_VALUE], -m_Eyeposition[Y_VALUE], -m_Eyeposition[Z_VALUE]);
 
         gl.glLightfv(SS_SUNLIGHT, GL10.GL_POSITION, makeFloatBuffer(sunPos));
         gl.glMaterialfv(GL10.GL_FRONT_AND_BACK, GL10.GL_DIFFUSE, makeFloatBuffer(cyan));
@@ -150,6 +153,7 @@ class SolarSystemRenderer implements GLSurfaceView.Renderer {
         gl.glRotatef(angle, 0.0f, 1.0f, 0.0f);
 
         executePlanet(m_Earth, gl);
+        executePlanet(m_Moon, gl);
 
         gl.glPopMatrix();
 
@@ -178,7 +182,7 @@ class SolarSystemRenderer implements GLSurfaceView.Renderer {
 
         gl.glMatrixMode(GL10.GL_PROJECTION);
 
-        size = zNear * (float) (Math.tan((double) (fieldOfView / 2.0f)));
+        size = zNear * (float) (Math.tan(fieldOfView / 2.0f));
 
         gl.glFrustumf(-size, size, -size / aspectRatio,
                 size / aspectRatio, zNear, zFar);
