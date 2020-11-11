@@ -22,7 +22,7 @@ public class SolarSystemRenderer implements GLSurfaceView.Renderer {
     Context c;
     private Planet Sun = new Planet(2f);
     private Planet Earth = new Planet(1f);
-    private Planet Moon = new Planet(0.5f);
+    private Planet Moon = new Planet(0.4f);
 
     private float p = 0.0f;
     private float angle = 40.0f;
@@ -53,7 +53,7 @@ public class SolarSystemRenderer implements GLSurfaceView.Renderer {
         gl.glOrthof(-10, 10, -10, 10, -10, 10); // применяет орфографическую проекцию
         gl.glMatrixMode(GL10.GL_MODELVIEW);
         gl.glLoadIdentity();
-        gl.glScalef(1, 0.60f, 1);
+        gl.glScalef(1, 0.6f, 1);
         loadGLTexture(gl);
     }
 
@@ -84,11 +84,13 @@ public class SolarSystemRenderer implements GLSurfaceView.Renderer {
         RotationSpeed = 0.05f;  // скорость вращения
         gl.glPushMatrix();  // копирует верхнюю матрицу и помещает ее в стек
 
+        // glTranslatef изменяет матрицу вида и после этого все координаты при умножении на эту новую матрицу вида
+        // будут смещаться соответствующим образом
         gl.glTranslatef(RotationOffset * (float) (cos(angle * RotationSpeed)), 0f,
                 RotationOffset * (float) (sin(angle * RotationSpeed)));
 
         gl.glRotatef(90, 1, 0, 0);
-        gl.glRotatef(p, 0, 0, 2);
+        gl.glRotatef(p, 0, 0, 1);
         gl.glPushMatrix();
 
         gl.glEnable(GL10.GL_TEXTURE_2D);  // подключение текстуры
@@ -96,19 +98,18 @@ public class SolarSystemRenderer implements GLSurfaceView.Renderer {
         gl.glTexCoordPointer(2, GL10.GL_FLOAT, 0, Earth.textureBuffer);
         gl.glColor4f(1, 1, 1, 1);
         Earth.onDrawFrame(gl);
-        gl.glRotatef(-p, 0.3f, 1, 0);
         RotationOffset = 1.5f;
         RotationSpeed = 0.2f;
 
-        gl.glTranslatef(RotationOffset * (float) (cos(1 * RotationSpeed)), 0f,
-                RotationOffset * (float) (sin(1 * RotationSpeed)));
+        gl.glTranslatef(RotationOffset * (float) (cos(0 * RotationSpeed)) + 0.3f, 0f,
+                RotationOffset * (float) (sin(0 * RotationSpeed)));
 
         gl.glEnable(GL10.GL_TEXTURE_2D);  // подключение текстуры
         gl.glBindTexture(GL10.GL_TEXTURE_2D, textures[2]);
         gl.glTexCoordPointer(2, GL10.GL_FLOAT, 0, Moon.textureBuffer);
         gl.glColor4f(1, 1, 1, 1);
         Moon.onDrawFrame(gl);
-        gl.glTranslatef(0.3f, 0f, 1f);
+        gl.glRotatef(p, 0, 0, 1);
 
         gl.glPopMatrix();
         gl.glPopMatrix();
