@@ -1,11 +1,13 @@
+// код фрагментного шейдера
 precision mediump float;
-varying vec4 varyingColor; varying vec3 varyingNormal;
+varying vec4 varyingColor;
+varying vec3 varyingNormal;
 varying vec3 varyingPos;
 uniform vec3 lightDir;
 
 void main() {
-    float Ns = 40.0;
-    float kd = 0.9, ks = 0.9;
+    float Ns = 10.0;// блик
+    float kd = 0.5, ks = 0.8;//яркость и контрастность
     vec4 light = vec4(1.0, 1.0, 1.0, 1.0);
     vec4 lightS = vec4(1.0, 1.0, 1.0, 1.0);
     vec3 Nn = normalize(varyingNormal);

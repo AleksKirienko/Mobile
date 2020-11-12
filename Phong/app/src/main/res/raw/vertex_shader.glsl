@@ -1,3 +1,4 @@
+// код вершинного шейдера
 uniform mat4 uMVPMatrix, uMVMatrix, uNormalMat;
 attribute vec4 vPosition;
 attribute vec4 vColor;

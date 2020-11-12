@@ -12,79 +12,14 @@ public class Sphere {
     private FloatBuffer vertexBuffer;
     private FloatBuffer colorBuffer;
     private FloatBuffer normalBuffer;
-
     private final int mProgram;
-
     static final int COORDS_PER_VERTEX = 3;
-
     private float[] vertices;
     private float[] normals;
     static float[] colors;
-
     private int vertexCount;
 
-    float[] lightDir = {-1.0f, 1.0f, 8.0f};
-
-    private void createSphere(int lats, int longs) {
-        int i, j;
-
-        vertices = new float[lats * longs * 6 * 3];
-        normals = new float[lats * longs * 6 * 3];
-        colors = new float[lats * longs * 6 * 3];
-
-        vertexCount = vertices.length / COORDS_PER_VERTEX;
-        int triIndex = 0;
-        for (i = 0; i < lats; i++) {
-            double lat0 = Math.PI * (-0.5 + (double) (i) / lats);
-            double z0 = Math.sin(lat0);
-            double zr0 = Math.cos(lat0);
-
-            double lat1 = Math.PI * (-0.5 + (double) (i + 1) / lats);
-            double z1 = Math.sin(lat1);
-            double zr1 = Math.cos(lat1);
-
-            for (j = 0; j < longs; j++) {
-                double lng = 2 * Math.PI * (double) (j - 1) / longs;
-                double x = Math.cos(lng);
-                double y = Math.sin(lng);
-
-
-                lng = 2 * Math.PI * (double) (j) / longs;
-                double x1 = Math.cos(lng);
-                double y1 = Math.sin(lng);
-
-                vertices[triIndex * 9] = (float) (x * zr0);
-                vertices[triIndex * 9 + 1] = (float) (y * zr0);
-                vertices[triIndex * 9 + 2] = (float) z0;
-                vertices[triIndex * 9 + 3] = (float) (x * zr1);
-                vertices[triIndex * 9 + 4] = (float) (y * zr1);
-                vertices[triIndex * 9 + 5] = (float) z1;
-                vertices[triIndex * 9 + 6] = (float) (x1 * zr0);
-                vertices[triIndex * 9 + 7] = (float) (y1 * zr0);
-                vertices[triIndex * 9 + 8] = (float) z0;
-
-                triIndex++;
-                vertices[triIndex * 9] = (float) (x1 * zr0);
-                vertices[triIndex * 9 + 1] = (float) (y1 * zr0);
-                vertices[triIndex * 9 + 2] = (float) z0;
-                vertices[triIndex * 9 + 3] = (float) (x * zr1);
-                vertices[triIndex * 9 + 4] = (float) (y * zr1);
-                vertices[triIndex * 9 + 5] = (float) z1;
-                vertices[triIndex * 9 + 6] = (float) (x1 * zr1);
-                vertices[triIndex * 9 + 7] = (float) (y1 * zr1);
-                vertices[triIndex * 9 + 8] = (float) z1;
-
-                for (int kk = -9; kk < 9; kk++) {
-                    normals[triIndex * 9 + kk] = vertices[triIndex * 9 + kk];
-                    if ((triIndex * 9 + kk) % 3 == 2)
-                        colors[triIndex * 9 + kk] = 1;
-                    else
-                        colors[triIndex * 9 + kk] = 0;
-                }
-                triIndex++;
-            }
-        }
-    }
+    float[] lightDir = {-1.0f, 1.0f, 5.0f}; // расположение блика на сфере
 
     public Sphere(int lats, int longs) {
 
@@ -120,6 +55,64 @@ public class Sphere {
         mProgram = sphereRenderer.createShaderProgram();
     }
 
+    private void createSphere(int lats, int longs) {
+        int i, j;
+        vertices = new float[lats * longs * 6 * 3];
+        normals = new float[lats * longs * 6 * 3];
+        colors = new float[lats * longs * 6 * 3];
+
+        vertexCount = vertices.length / COORDS_PER_VERTEX;
+        int triIndex = 0;
+        for (i = 0; i < lats; i++) {
+            double lat0 = Math.PI * (-0.5 + (double) (i) / lats);
+            double z0 = Math.sin(lat0);
+            double zr0 = Math.cos(lat0);
+
+            double lat1 = Math.PI * (-0.5 + (double) (i + 1) / lats);
+            double z1 = Math.sin(lat1);
+            double zr1 = Math.cos(lat1);
+
+            for (j = 0; j < longs; j++) {
+                double lng = 2 * Math.PI * (double) (j - 1) / longs;
+                double x = Math.cos(lng);
+                double y = Math.sin(lng);
+
+                lng = 2 * Math.PI * (double) (j) / longs;
+                double x1 = Math.cos(lng);
+                double y1 = Math.sin(lng);
+
+                vertices[triIndex * 9] = (float) (x * zr0);
+                vertices[triIndex * 9 + 1] = (float) (y * zr0);
+                vertices[triIndex * 9 + 2] = (float) z0;
+                vertices[triIndex * 9 + 3] = (float) (x * zr1);
+                vertices[triIndex * 9 + 4] = (float) (y * zr1);
+                vertices[triIndex * 9 + 5] = (float) z1;
+                vertices[triIndex * 9 + 6] = (float) (x1 * zr0);
+                vertices[triIndex * 9 + 7] = (float) (y1 * zr0);
+                vertices[triIndex * 9 + 8] = (float) z0;
+
+                triIndex++;
+                vertices[triIndex * 9] = (float) (x1 * zr0);
+                vertices[triIndex * 9 + 1] = (float) (y1 * zr0);
+                vertices[triIndex * 9 + 2] = (float) z0;
+                vertices[triIndex * 9 + 3] = (float) (x * zr1);
+                vertices[triIndex * 9 + 4] = (float) (y * zr1);
+                vertices[triIndex * 9 + 5] = (float) z1;
+                vertices[triIndex * 9 + 6] = (float) (x1 * zr1);
+                vertices[triIndex * 9 + 7] = (float) (y1 * zr1);
+                vertices[triIndex * 9 + 8] = (float) z1;
+
+                for (int kk = -9; kk < 9; kk++) {
+                    normals[triIndex * 9 + kk] = vertices[triIndex * 9 + kk];
+                    if ((triIndex * 9 + kk) % 3 == 1)  // задание цвета, блика, тени
+                        colors[triIndex * 9 + kk] = 1;
+                    else
+                        colors[triIndex * 9 + kk] = 0;
+                }
+                triIndex++;
+            }
+        }
+    }
 
     public void draw(float[] mvpMatrix, float[] normalMat, float[] mvMat) {
 
