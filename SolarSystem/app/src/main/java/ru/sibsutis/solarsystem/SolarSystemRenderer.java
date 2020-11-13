@@ -37,7 +37,7 @@ public class SolarSystemRenderer implements GLSurfaceView.Renderer {
             gl.glBindTexture(GL10.GL_TEXTURE_2D, textures[i]); // привязка текстуры
             gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_MIN_FILTER, GL10.GL_LINEAR);
             InputStream is = c.getResources().openRawResource(texture_name[i]);
-            Bitmap bitmap = BitmapFactory.decodeStream(is);  //создание объекта bitmap
+            Bitmap bitmap = BitmapFactory.decodeStream(is);  //создание объекта bitmap, перекодирование текстуры
             GLUtils.texImage2D(GL10.GL_TEXTURE_2D, 0, bitmap, 0);  // загрузка текстуры
             bitmap.recycle();  // используется для освобождения памяти
         }
@@ -53,7 +53,7 @@ public class SolarSystemRenderer implements GLSurfaceView.Renderer {
         gl.glOrthof(-10, 10, -10, 10, -10, 10); // применяет орфографическую проекцию
         gl.glMatrixMode(GL10.GL_MODELVIEW);
         gl.glLoadIdentity();
-        gl.glScalef(1, 0.6f, 1);
+        gl.glScalef(1, 0.6f, 1); // масштабирование объектов
         loadGLTexture(gl);
     }
 
@@ -85,7 +85,7 @@ public class SolarSystemRenderer implements GLSurfaceView.Renderer {
         gl.glPushMatrix();  // копирует верхнюю матрицу и помещает ее в стек
 
         // glTranslatef изменяет матрицу вида и после этого все координаты при умножении на эту новую матрицу вида
-        // будут смещаться соответствующим образом
+        // будут смещаться соответствующим образом, расположение координат на экране
         gl.glTranslatef(RotationOffset * (float) (cos(angle * RotationSpeed)), 0f,
                 RotationOffset * (float) (sin(angle * RotationSpeed)));
 
@@ -104,6 +104,7 @@ public class SolarSystemRenderer implements GLSurfaceView.Renderer {
         gl.glTranslatef(RotationOffset * (float) (cos(0 * RotationSpeed)) + 0.3f, 0f,
                 RotationOffset * (float) (sin(0 * RotationSpeed)));
 
+        gl.glRotatef(p, 0, 0, 1);
         gl.glEnable(GL10.GL_TEXTURE_2D);  // подключение текстуры
         gl.glBindTexture(GL10.GL_TEXTURE_2D, textures[2]);
         gl.glTexCoordPointer(2, GL10.GL_FLOAT, 0, Moon.textureBuffer);
